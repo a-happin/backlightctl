@@ -1,0 +1,17 @@
+#!/bin/sh
+
+INTERFACE_DIR=/sys/class/backlight/intel_backlight
+
+if [[ -z "$1" ]]; then
+  printf "%s\n" "Usage:"
+  printf "%s\n" "    backlightctl get    -- get brightness"
+  printf "%s\n" "    backlightctl max    -- set brightness max"
+  printf "%s\n" "    backlightctl NUMBER -- set brightness NUMBER"
+elif [[ "$1" == "get" ]]; then
+  cat ${INTERFACE_DIR}/brightness
+elif [[ "$1" == "max" ]]; then
+  cp -f ${INTERFACE_DIR}/max_brightness ${INTERFACE_DIR}/brightness
+else
+  echo "$1" > ${INTERFACE_DIR}/brightness
+fi
+
